@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Gestionnaire de tous vos tâches  </title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+    <body>
+    <style>
+        /* Global styles*/
+    body{
+        font-family: ADlaM Display, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        transition: background-color 0.3s ease; /*Transition pour un changement de fond en douceur*/
+    }
+
+        .login-container {
+        width: 300px;
+        margin: 100px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    h2, h3{
+        text-align: center;
+    }
+
+    input{
+        width: 100px; /* Correction : largeur des champs à 100% pour un affichage cohérent*/
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button{
+        width: 100%;
+        padding: 10px;
+        background-color: #31dedb;
+        color:azure;
+        border: none;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background-color: #218838;
+    }
+
+    /* Styles pour les lien*/
+    a{
+        display:block;
+        text-align: center;
+        margin-top: 10px;
+        color:#2362cf;
+        text-decoration: none;
+    }
+
+    /*Responsive design*/
+    @media (max-width: 768px){
+        .container {
+            width: 90%; /* Correction : largeur à 90% sur les écrans moyens */
+    }
+    ul{
+        list-style-type: none;
+        padding: 0;
+    }
+
+    ul li{
+        background-color: #f9f9f9;
+        margin: 5px 0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    @media(max-width: 480px){
+        .container{
+            width: 100%; /* Correction : largeur à 100% pour les petits écrans*/
+        }
+
+    a:hover{ 
+        text-decoration: underline;
+    }
+        .theme-buttons{
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .theme-buttons button{
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .light-theme{
+            background-color: #fff2f2;
+        }
+
+        .dark-theme{
+            background-color: #333;
+            color: white;
+        }
+        </style>
+        <!--Fin du style interne -->
+    </body>
+
+    <!-- Formulaire de connexion -->
+    <div class="login-container"id='login-page'>
+        <h2>Connexion</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="login-email">Email</label>
+            <input type="email" id="email" placeholder="Adresse email" required>
+            <input type="password" id="password" placeholder="Mot de passe" required>
+            <button type="submit">Se connecter</button> <!-- Ajout du texte du button -->
+        </form>
+        <div class="mt-3"></div>
+        <a href="javascript:void(0);" id="show-signup">Créer un compte</a>
+        <a href="javascript:void(0);" id="show-reset">Mot de passe oublié ? </a>  
+            </div>
+    </div>
+
+<!-- Page de réinitialisation de mot de passe -->
+ <div class="container" id="asswordPage" style="display:none;">
+    <h2>Réinitialisation du mot de passe</h2>
+    <form id="resetForm">
+        <div class="input-group">
+            <label for="resetEmail">Email</label>
+            <input type="email" id="resetEmail" name="resetEmail" required>
+        </div>
+        <div class="input-group">
+            <label for="newPassword">Nouveau mot de passe</label>
+            <input type="password" id="newpassword" name="newpassword" required placeholder="Nouveau mot de passe">
+        </div>
+        <button type="submit">Réinitialiser le mot de passe</button>
+    </form>
+    <p><a href="javascript:void(0)" onclick="showPage('loginPage')">Retour à la connexion</a></p>
+</div>
+
+<!-- Page d'inscription -->
+<div class="container" id="signupPage" style="display:none;">
+    <h2>Inscription</h2>
+    <form id="signupForm">
+        <div class="input-group">
+            <label for="signupEmail">Email</label>
+            <input type="email" id="signupEmail" name="signupEmail" required>
+        </div>
+        <div class="input-group">
+            <label for="signupPassword">Mot de passe</label>
+            <input type="password" id="signupPassword" name="signupPassword" required>
+        </div>
+        <button type="submit">S'inscrire</button>
+    </form>
+    <p><a href="javascript:void(0)" onclick="showPage('loginPage')">Retour à la connexion</a></p>
+</div>
+
+<!-- Tableau de bord -->
+<div class="container" id="dashboardPage" style="display:none;">
+    <h2>Le Tableau de bord</h2>
+    <div id="taskList">
+        <h3>Tâches</h3>
+        <ul id="taskUl">
+            <!-- Liste de tâches -->
+        </ul>
+    </div>
+    <form id="addTaskForm">
+        <input type="text" id="newTask" placeholder="Ajouter une nouvelle tâche" required>
+        <button type="submit">Ajouter</button>
+    </form>
+    <p><a href="javascript:void(0)" onclick="showPage('loginPage')">Se déconnecter</a></p>
+</div>
+
+<!--Formulaire de réinitialisation de mot de passe -->
+<div class="container" id="restPage" style="display:none;">
+    <h2>Réinitialisation du mot de passe</h2>
+    <form id="resetForm">
+        <div class="input-group">
+            <label for="resetEmail">Email</label>
+            <input type="email" id="resetEmail" name="resetEmail" required>
+        </div>
+        <div class="input-group">
+            <label for="newPassword">Nouveau mot de passe</label>
+            <input type="password" id="newPassword" name="newPassword" required>
+        </div>
+        <button type="submit">Réinitialiser</button>
+    </form>
+    <p><a href="javascript:void(0)" onclick="showPage('loginPage')">Retour à la connexion</a></p>
+    </div>
+
+    <script>
+        //Navigation entre les pages
+        function showPage(pageId) {
+            document.querySelectorAll('.container').forEach(page =>{
+                page.style.display = 'none';
+            })
+            document.getElementById(pageId).style.display = 'block';
+        }
+
+        //Formulaire de connexion
+        document.getElementById('loginForm')?.addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Vous vous êtes connecté(e) avec succès!');
+            showPage('dashboardPage'); //Rediriger vers le tableau de bord après la connexion
+        });
+
+        //Formulaire d'inscription
+        document.getElementById('signupForm')?.addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Votre inscription est un succès!');
+            showPage('loginPage');
+        });
+
+        //Formulaire de réinitialisation de mot de passe
+        document.getElementById('resetForm')?.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const resetEmail = document.getElementById('resetEmail').value;
+            const newPassword = document.getElementById('newPassword').value;
+
+            //Simuler la réinitialisation du mot de passe
+            if (resetEmail && newPassword) {
+            alert('MOt de passe réinitialisé avec succès!:'+ resetEmail);
+            showPage('loginPage'); 
+        } else{
+            alert('Veuillez remplir tous les champs.');
+        }
+    });
+
+    // Liste des tâches à effectuer
+    let tasks = [];
+    let completedTasks = [];
+
+    //Ajout de la tâche
+    document.getElementById('addTaskForm')?.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const taskInput = document.getElementById('newTask');
+            const taskTest = taskInput.value.trim();
+            if(taskTest){
+                tasks.push(taskTest);
+                taskInput.value = '';// Réinitialisation du champ input
+                updateTaskList(); 
+            }
+        });
+
+        // Mise à jour de la liste des tâches
+        function updateTaskList() {
+            const taskListElement = document.getElementById('l');
+            taskListElement.innerHTML = ''; //Vide de la liste des tâches
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.textContent = task;
+
+                // Bouton pour marquer la tâche comme terminée
+                const completeBtn = document.createElement('button');
+                completeBtn.textContent = 'Tâche marquée comme effectuée';
+                completeBtn.onclick = () => markTaskAsCompleted(index);
+
+                li.appendChild(completeBtn);
+
+                taskListElement.appendChild(li);
+        });
+    }
+
+        // Marquer une tâche comme terminée
+        function markTaskAsCompleted(index) {
+            const completedTask = tasks.splice(index, 1)[0]; // Retirer la tâche de la liste des tâches à faire 
+            completedTasks.push(completedTask); //Ajouter à la liste des tâches effectuées
+            updateTaskList();
+            updateCompletedTaskList();
+        }
+
+        // Mise à jour de la liste des tâches effectuées
+        function updateCompletedTaskList() {
+            const completedTaskListElement = document.getElementById('completedTaskUl');
+            completedTaskListElement.innerHTML = ''; //Vide la liste des tâches effectuées
+            completedTasks.forEach(task => {
+                const li = document.createElement('li');
+                li.textContent = task;
+                completedTaskListElement.appendChild(li);
+            });
+        }
+    </script>
+
+</body>
+</html>
